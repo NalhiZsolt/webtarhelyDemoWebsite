@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+
+*, *:before, *:after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: white;
+}
+html {
+    scroll-behavior: smooth;
+}
+:root {
+    --grey: #292d33;
+    --darkGrey: #1a1a1a;
+    --yellow: #f1a533;
+    --blue: #4cabd3;
+    --green: #5fb7a2;
+}
+p, h3 {
+    font-family: Lato, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    line-height: 1.3rem;
+    text-align: center;
+}
+h1 {
+    font-family: Roboto Slab, sans-serif;
+}
+
+body {
+    background-color: var(--darkGrey);
+}
+.modal {
+    background-color: var(--grey);
+    position: absolute;
+    min-width: 80vw;
+    min-height: 20vh;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px;
+    text-align: center;
+    font-family: Lato, sans-serif;
+    font-size: 1.2rem;
+    border-radius: 5px;
+}
+.modal input {
+    display: block;
+    color: var(--darkGrey);
+    margin: 10px auto;
+    width: 80%;
+    padding: 2px;
+    font-size: 1.2rem;
+}
+.modal input[type='button'] {
+    background-color: green;
+    color: white;
+    margin: 0 auto;
+    margin-top: 20px;
+    width: 30%;
+    padding: 5px;
+    border: 0;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    transition: 0.3s ease all;
+}
+.modal input[type='button']:hover {
+    background-color: white;
+    color: var(--darkGrey);
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr ;
+}
+section {
+    padding: 20px;
+}
+section h2 {
+    text-align: center;
+    font-family: Roboto Slab,sans-serif;
+    margin: 15px;
+}
+section .frame{
+    background-color: var(--grey);
+    margin: 15px;
+    padding: 10px;
+    border-radius: 5px;
+}
+section div p {
+    text-align: left;
+    margin: 10px 0;
+}
+section div p span {
+    font-weight: 700;
+}
+section div button {
+    border: 0;
+    padding: 10px;
+    width: 50px;
+    cursor: pointer;
+    transition: 0.3s ease all;
+}
+section div button:hover {
+    
+    background-color: gray;
+}
+section div .delete {
+    background-color: red;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+section div .answer {
+    background-color: green;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+section div div.container {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+section div div.buttonContainer {
+    display: flex;
+    justify-content: center;
+}
+@media only screen and (min-width: 768px) {
+    .modal {
+        min-width: 50vw;
+    }
+}
+@media only screen and (min-width: 1200px) {
+    .modal {  
+        min-width: 30vw;
+    }
+    main {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}

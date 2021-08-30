@@ -1,0 +1,152 @@
+
+let newElement = document.querySelectorAll('section')[0];
+let answeredElement = document.querySelectorAll('section')[1];
+let buttonElement = document.querySelectorAll('input')[2];
+let adminEmail = document.querySelectorAll('input')[0];
+let adminPwd = document.querySelectorAll('input')[1];
+
+buttonElement.addEventListener('click', function(e) {
+        e.preventDefault();
+    
+        const URL = 'http://localhost:3000/admins';
+        const param = {
+            headers: { "Content-Type": "application/json; charset=UTF-8" },
+            method: 'GET',
+            
+        }
+        const response = fetch(URL, param);
+        response
+        .then(data => data.json())
+        .then(resp => {
+            console.log(resp);
+            adminList = resp;
+            
+            for(let i=0;i<adminList.length;i++) {
+                console.log(adminList[i].email);
+                console.log(adminEmail.value);
+                if (adminEmail.value === adminList[i].email && adminPwd.value === adminList[i].password) {
+                    document.querySelector('.modal').style.display = 'none';
+                    //alert('AUTENTIKÁCIÓ SIKERES!');
+                    getUserList();
+                }
+            }
+           
+        })
+        .catch(err => console.log(err));
+    
+    
+
+})
+
+function getUserList() {
+    const URL = 'http://localhost:3000/userSentMessage';
+    const param = {
+        headers: { "Content-Type": "application/json; charset=UTF-8" },
+        method: 'GET',
+        
+    }
+    const response = fetch(URL, param);
+    response
+    .then(data => data.json())
+    .then(resp => {
+        console.log(resp);
+        userList = resp;
+        console.log(userList);
+        renderUserList(userList);
+    })
+    .catch(err => console.log(err));
+
+}
+
+
+function renderUserList(list) {
+    newElement.innerHTML = `<h2>Új üzenetek</h2>`;
+    answeredElement.innerHTML = `<h2>Folyamatban lévőek</h2>`;
+    for (let i = 0; i < list.length; i++) {
+        
+        let frame = document.createElement('div');
+        frame.className = "frame"
+        frame.innerHTML = `
+        <p><span>Név: </span>${list[i].userName}</p>
+        <p><span>Cím: </span>${list[i].userAddress}</p>
+        <p><span>Telefonszám: </span>${list[i].userPhone}</p>
+        <p><span>E-mail cím: </span>${list[i].userEmail}</p>
+        <p><span>Üzenet: </span>${list[i].userMessage}</p>
+        <div class="container"> 
+        <p><span>Azonosító: </span>${list[i].id}</p>
+        <div class="buttonContainer"> 
+        <button onclick="answeredMsg(${list[i].id})" class="answer"><i class="fas fa-reply"></i></button>
+        <button onclick="deleteMsg(${list[i].id})" class="delete"><i class="fas fa-trash-alt"></i></button>
+        </div>
+        </div>
+        `;
+        if (!list[i].answered) {
+           
+            newElement.appendChild(frame);
+
+        } else {
+
+            answeredElement.appendChild(frame);
+            //console.log(document.querySelectorAll('.answeredElement .answer'));
+        }
+    }
+};
+
+function answeredMsg(azonosito) {
+    //e.preventDefault();
+    const URL = 'http://localhost:3000/userSentMessage/'+azonosito;
+    const param = {
+        headers: { "Content-Type": "application/json; charset=UTF-8" },
+        method: 'GET',
+    }
+    const response = fetch(URL, param);
+    response
+        .then(data => data.json())
+        .then(resp => {
+            console.log(resp)
+            let answeredMessage = {
+                userName: resp.userName,
+                userAddress:resp.userAddress,
+                userEmail: resp.userEmail,
+                userPhone: resp.userPhone,
+                userMessage: resp.userMessage,
+                answered: true
+            };
+            
+            update(resp.id, answeredMessage)
+            console.log(answeredMessage);
+        })
+        .catch(err => console.error(err));
+};
+
+function update(azonosito, updatedMsg) {
+        
+        const http = new XMLHttpRequest();
+        const URL = 'http://localhost:3000/userSentMessage/'+azonosito;
+        const jsonUser = JSON.stringify(updatedMsg);
+        http.open('PUT', URL);
+        http.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+        http.onreadystatechange = function () {
+            if(this.readyState == 4 && this.status === 200) {
+                console.log(this.responseText);
+            }
+            
+        }
+        
+        http.send(jsonUser);
+        getUserList()
+}
+function deleteMsg(azonosito) {
+    const URL = 'http://localhost:3000/userSentMessage/'+azonosito;
+    const param = {
+        headers: { "Content-Type": "application/json; charset=UTF-8" },
+        method: 'DELETE',
+    }
+    const response = fetch(URL, param);
+    response
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
+    getUserList();
+}
+//getUserList()

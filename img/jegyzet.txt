@@ -1,0 +1,18 @@
+
+Mobile first-el kezdés
+
+mediaquery felosztás:
+
+Mobile <768px 
+Tabelt 768px - 1200px
+Desktop >1200px
+
+Az egyes section-ok egyszínű flekkjében levő kis ikonok animálása.
+
+A felső három kártya a 3 szekcióra navigáljon.
+
+Kereső mező próba a Zoli regisztrációs Moovsmart-os oldal alapján.
+
+IT tárhely szolgáltató cég oldala.
+
+Mobile nézet elkészítése csütörtök dél.

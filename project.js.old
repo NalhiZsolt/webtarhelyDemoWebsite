@@ -1,0 +1,95 @@
+
+const cardBlue = document.querySelector('#main .card-container .blue');
+const cardYellow = document.querySelector('#main .card-container .yellow');
+const cardGreen = document.querySelector('#main .card-container .green');
+const tl = new TimelineMax();
+tl.fromTo(cardBlue, 0.3, {y: "10%"}, {y: "0%", ease: Power2.easeInOut}, "= 0.3")
+.fromTo(cardBlue, 0.3, {opacity: 0}, {opacity: 1}, "-= 0.3")
+.fromTo(cardYellow, 0.3, {y: "10%",  x: -30}, {y: "0%", x: 0 , ease: Power2.easeInOut}, "= -0.1")
+.fromTo(cardYellow, 0.3, {opacity: 0}, {opacity: 1}, "-= 0.3")
+.fromTo(cardGreen, 0.3, {y: "10%", x: 30}, {y: "0%", x: 0, ease: Power2.easeInOut}, "= -0.1")
+.fromTo(cardGreen, 0.3, {opacity: 0}, {opacity: 1 }, "-= 0.3")
+
+const menuBtn = document.querySelector('.menu-btn');
+const menuLinks = document.querySelector('.nav__list');
+
+menuBtn.addEventListener('click', () => {
+    menuBtn.classList.toggle('open');
+    menuLinks.classList.toggle('open');
+});
+
+$(function () {
+
+
+    //form validáció
+    let name = $("#name");
+    let address = $("#address");
+    let email = $("#email");
+    let phone = $("#phone");
+    let message = $("#message");
+
+    $("#submitButton").on("click", function (e) {
+        if($(name).val() ==='') {
+            $(name).css("border", "1px solid red");
+            e.preventDefault();
+        } else {
+            $(name).css("border", "1px solid green");
+            
+        }
+        if($(address).val() ==='') {
+            $(address).css("border", "1px solid red");
+            e.preventDefault();
+        } else {
+            $(address).css("border", "1px solid green");
+            
+        }
+        if($(email).val() ==='') {
+            $(email).css("border", "1px solid red");
+            e.preventDefault();
+        } else {
+            $(email).css("border", "1px solid green");
+            
+        }
+        if($(phone).val() ==='') {
+            $(phone).css("border", "1px solid red");
+            e.preventDefault();
+        } else {
+            $(phone).css("border", "1px solid green");
+            
+        }
+        if($(message).val() ==='') {
+            $(message).css("border", "1px solid red");
+            e.preventDefault();
+        } else {
+            $(message).css("border", "1px solid green");
+            
+        }
+        if(name !== '' && address !== '' && email !== '' && phone !=='' && message !== '') {
+            let userSentMessage = {
+                userName: $(name).val(),
+                userAddress: $(address).val(),
+                userEmail: $(email).val(),
+                userPhone: $(phone).val(),
+                userMessage: $(message).val(),
+                answered: false
+            }
+            
+            saveUser(userSentMessage);
+            e.preventDefault();
+        }
+    })
+   
+});
+function saveUser(user) {
+    const http = new XMLHttpRequest();
+    const URL = 'http://localhost:3000/userSentMessage';
+    const jsonUser = JSON.stringify(user);
+    http.open('POST', URL);
+    http.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+    http.onreadystatechange = function () {
+        if(this.readyState == 4 && this.status == 201) {
+            console.log(this.responseText);
+        }
+    }
+    http.send(jsonUser);
+}
